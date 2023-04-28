@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  database:
+    container_name: database
+    build: ./Database/
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_PASS: admin
+      MYSQL_DATABASE: db_name
+
+  webapp:
+    build: ./Web/
+    container_name: webapp
+    extra_hosts:
+      - "web_site.loc:127.0.0.1"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./app/gp_de:/var/www/web_site
+
+
+#  upmonitor:
+#    container_name: up_time_monitor
+#    image: grafana/grafana
+#    ports:
+#      - "3000:3000"
+#
+#  phpmyadmin:
+#    image: phpmyadmin
+#    restart: always
+#    ports:
+#      - "8080:80"
+#    environment:
+#      PMA_HOST: database
